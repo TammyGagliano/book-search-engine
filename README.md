@@ -18,8 +18,10 @@ This application allows to search for the books, save books to your saved book l
 * Heroku
 * JWT 
 
-# License 
+## APP Screenshot
 
-# Author
-
-* Tammy Gagliano
+![Book Search Engine](./booksearch_screenshot.png)
+## Contributions
+Tammy Gagliano 
+* https://github.com/TammyGagliano/book-search-engine
+* https://tg-book-search-engine.herokuapp.com/
