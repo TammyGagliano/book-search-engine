@@ -1,12 +1,13 @@
 const express = require('express');
 const path = require('path');
-const db = require('./config/connection');
+
 
 // Import the Apollo Server
 const { ApolloServer } = require('apollo-server-express');
 // Import the typeDefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
+const db = require('./config/connection');
 
 // Set up express server
 const app = express();
@@ -30,6 +31,11 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
 
 // GraphQL and express server start
 
