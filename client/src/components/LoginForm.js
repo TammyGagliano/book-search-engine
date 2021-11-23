@@ -1,3 +1,5 @@
+// see SignupForm.js for comments
+
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
