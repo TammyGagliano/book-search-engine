@@ -1,33 +1,25 @@
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 
-
-// Import the Apollo Server
-const { ApolloServer } = require('apollo-server-express');
-// Import the typeDefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const db = require('./config/connection');
 
-// Set up express server
-const app = express();
 const PORT = process.env.PORT || 3001;
-
-// Set up the apollo server and pass in the schema
+const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  context: authMiddleware,
 });
 
-// Integrate the Apollo server and pass in the schema
 server.applyMiddleware({ app });
 
-// Express middleware for parsing
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// if we're in production, serve client/build as static assets
+// Serve up static assets
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
@@ -35,9 +27,6 @@ if (process.env.NODE_ENV === 'production') {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-
-
-// GraphQL and express server start
 
 db.once('open', () => {
   app.listen(PORT, () => {
